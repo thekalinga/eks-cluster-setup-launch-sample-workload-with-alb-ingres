@@ -1,6 +1,6 @@
 apiVersion: v2
-name: workload-chart
-description: workload-chart description
+name: workload-nlb-chart
+description: Workload application that has L4 loadbalancer i.e NLB
 
 # A chart can be either an 'application' or a 'library' chart.
 #
