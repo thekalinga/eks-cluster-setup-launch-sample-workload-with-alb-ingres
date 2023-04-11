@@ -4,10 +4,10 @@ Launch EKS cluster using `eksctl`, Install a workload into cluster via ALB Ingre
 
 You need to install
 
-. kubectl[https://kubectl.docs.kubernetes.io/]
-. helm[https://helm.sh/docs/intro/install/]
-. aws-cli[https://github.com/aws/aws-cli]
-. eksctl[https://eksctl.io/]
+. https://kubectl.docs.kubernetes.io/[kubectl]
+. https://helm.sh/[helm]
+. https://github.com/aws/aws-cli[aws-cli]
+. https://eksctl.io/[eksctl]
 
 It installs AWS Load Balancer controller (This is AWS LoadBalancer, not Application LoadBalancer). AWS LoadBalancer is refers to all load balancers --- Application LoadBalancer (ALB), Network LoadBalancer (NLB) & Elastic LoadBalancer (ELB) i.e AWS LB ≠ ALB, AWS LB = ALB &/ NLB &/ ELB.
 
