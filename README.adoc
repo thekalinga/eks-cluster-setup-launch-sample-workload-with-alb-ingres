@@ -123,7 +123,7 @@ or in browser
 helm uninstall workload
 ----
 
-=== L4 Service LoadBalancer (L4 - NLB) workload
+=== Service LoadBalancer (L4 - NLB) workload
 
 ==== Using kubectl
 
@@ -264,48 +264,80 @@ helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
     --set serviceAccount.create=false \
     --set serviceAccount.name=workload-sa
 
-# Install Ingress (L7 - ALB) workload (using kubectl)
+# Ingress (L7 - ALB) workload
+
+## Using kubectl
+
+### Install
 kubectl apply -f workload-alb-full.yaml
 
-# List all resources
+### List all resources
 kubectl get all -A
 
-# Get Ingress resources
+### Get Ingresses
 kubectl get ing -A
 
 # (or) Access url via
 curl -v -k ing_url
 # or in browser
 
-# Uninstall Ingress workload
+### Uninstall
 kubectl delete -f workload-alb-full.yaml
 
-# Install Ingress workload (using helm)
+## Using helm
+
+### Install
 helm upgrade --install workload workload-alb-chart
 
-# Uninstall Ingress workload
-helm uninstall workload
-
-# Install L4 Service LoadBalancer (L4 - NLB) workload (using kubectl)
-kubectl apply -f workload-nlb-full.yaml
-
-# List all resources
+### List all resources
 kubectl get all -A
 
-# Get Service resources
+### Get Ingresses
+kubectl get ing -A
+
+# (or) Access url via
+curl -v -k ing_url
+# or in browser
+
+### Uninstall
+helm uninstall workload
+
+# Service LoadBalancer (L4 - NLB) workload
+
+## Using kubectl
+
+### Install
+kubectl apply -f workload-nlb-full.yaml
+
+### List all resources
+kubectl get all -A
+
+### Get Services
 kubectl get svc -A
 
 # (or) Access url via
 curl -v -k ing_url
 # or in browser
 
-# Uninstall Ingress workload
+### Uninstall
 kubectl delete -f workload-nlb-full.yaml
 
-# Install Ingress workload (using helm)
+## Using helm
+
+### Install
 helm upgrade --install workload workload-nlb-chart
 
-# Uninstall Ingress workload
+### List all resources
+kubectl get all -A
+
+### Get Services
+kubectl get svc -A
+
+# (or) Access url via
+curl -v -k ing_url
+# or in browser
+
+# Uninstall
 helm uninstall workload
 
 # List loadbalancer policy & note ARN
