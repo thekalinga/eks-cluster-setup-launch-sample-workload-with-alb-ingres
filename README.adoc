@@ -43,21 +43,25 @@ helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
     --set serviceAccount.name=workload-sa
 ----
 
-=== Install Ingress (L7 - ALB) workload (using kubectl)
+=== Ingress (L7 - ALB) workload
+
+==== Using kubectl
+
+===== Install
 
 [source,shell]
 ----
 kubectl apply -f workload-alb-full.yaml
 ----
 
-=== List all resources
+===== List all resources
 
 [source,shell]
 ----
 kubectl get all -A
 ----
 
-=== Get Ingress resources
+===== Get Ingresses
 
 [source,shell]
 ----
@@ -73,42 +77,71 @@ curl -v -k <ing_url>
 
 or in browser
 
-=== Uninstall ingress workload
+===== Uninstall
 
 [source,shell]
 ----
 kubectl delete -f workload-alb-full.yaml
 ----
 
-=== Install Ingress (L7 - ALB) workload (using helm)
+==== Using helm
+
+===== Install
 
 [source,shell]
 ----
 helm upgrade --install workload workload-alb-chart
 ----
 
-=== Uninstall Ingress workload
-
-[source,shell]
-----
-helm uninstall workload
-----
-
-=== Install L4 Service LoadBalancer (L4 - NLB) workload (using kubectl)
-
-[source,shell]
-----
-kubectl apply -f workload-nlb-full.yaml
-----
-
-=== List all resources
+===== List all resources
 
 [source,shell]
 ----
 kubectl get all -A
 ----
 
-=== Get Service resources
+===== Get Ingress resources
+
+[source,shell]
+----
+kubectl get ing -A
+----
+
+Access url via
+
+[source,shell]
+----
+curl -v -k <ing_url>
+----
+
+or in browser
+
+===== Uninstall
+
+[source,shell]
+----
+helm uninstall workload
+----
+
+=== L4 Service LoadBalancer (L4 - NLB) workload
+
+==== Using kubectl
+
+===== Install
+
+[source,shell]
+----
+kubectl apply -f workload-nlb-full.yaml
+----
+
+===== List all resources
+
+[source,shell]
+----
+kubectl get all -A
+----
+
+===== Get Services
 
 [source,shell]
 ----
@@ -124,21 +157,46 @@ curl -v -k <ing_url>
 
 or in browser
 
-=== Uninstall L4 Service LoadBalancer workload
+===== Uninstall
 
 [source,shell]
 ----
 kubectl delete -f workload-nlb-full.yaml
 ----
 
-=== Install Service LoadBalancer (L4 - NLB) workload (using helm)
+==== Using helm
+
+===== Install
 
 [source,shell]
 ----
 helm upgrade --install workload workload-nlb-chart
 ----
 
-=== Uninstall Ingress workload
+===== List all resources
+
+[source,shell]
+----
+kubectl get all -A
+----
+
+===== Get Services
+
+[source,shell]
+----
+kubectl get svc -A
+----
+
+Access url via
+
+[source,shell]
+----
+curl -v -k <ing_url>
+----
+
+or in browser
+
+===== Uninstall
 
 [source,shell]
 ----
@@ -269,4 +327,8 @@ eksctl delete cluster --name workload
 
 == References
 
-Read more about this https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller[AWS Load Balancer Controller]
+Read more at
+
+. https://docs.aws.amazon.com/eks/latest/userguide/network-load-balancing.html[Network load balancing on Amazon EKS]
+. https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html[Application load balancing on Amazon EKS]
+. https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller[AWS Load Balancer Controller]
