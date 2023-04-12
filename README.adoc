@@ -51,7 +51,11 @@ helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
 
 [source,shell]
 ----
+# installs all resources into game-2048 namespace
 kubectl apply -f workload-alb-full.yaml
+
+# use this if you want to install this into default profile instead
+kubectl apply -f workload-alb-default-ns-full.yaml
 ----
 
 ===== List all resources
@@ -72,16 +76,37 @@ Access url via
 
 [source,shell]
 ----
-curl -v -k <ing_url>
+# for game-2048 namespace
+curl -v -k $(kubectl get ing ingress-2048 -n game-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname')
+
+# for default namespace
+curl -v -k $(kubectl get ing ingress-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname')
+
+# or
+
+# get ingress_url
+
+# for game-2048 namespace
+kubectl get ing ingress-2048 -n game-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname'
+
+# for default namespace
+kubectl get ing ingress-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname'
+
+# and access
+curl -v -k ingress_url
 ----
 
-or in browser
+or access it in browser
 
 ===== Uninstall
 
 [source,shell]
 ----
+# for game-2048 namespace
 kubectl delete -f workload-alb-full.yaml
+
+# for default namespace
+kubectl delete -f workload-alb-default-ns-full.yaml
 ----
 
 ==== Using helm
@@ -90,7 +115,11 @@ kubectl delete -f workload-alb-full.yaml
 
 [source,shell]
 ----
+# installs all resources into game-2048 namespace
 helm upgrade --install workload workload-alb-chart
+
+# use this if you want to install this into default profile instead
+helm upgrade --install workload workload-alb-chart --set defaultNamespace=true
 ----
 
 ===== List all resources
@@ -111,10 +140,27 @@ Access url via
 
 [source,shell]
 ----
-curl -v -k <ing_url>
+# for game-2048 namespace
+curl -v -k $(kubectl get ing ingress-2048 -n game-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname')
+
+# for default namespace
+curl -v -k $(kubectl get ing ingress-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname')
+
+# or
+
+# get ingress_url
+
+# for game-2048 namespace
+kubectl get ing ingress-2048 -n game-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname'
+
+# for default namespace
+kubectl get ing ingress-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname'
+
+# and access
+curl -v -k ingress_url
 ----
 
-or in browser
+or access it in browser
 
 ===== Uninstall
 
@@ -131,7 +177,11 @@ helm uninstall workload
 
 [source,shell]
 ----
+# installs all resources into game-2048 namespace
 kubectl apply -f workload-nlb-full.yaml
+
+# use this if you want to install this into default profile instead
+kubectl apply -f workload-nlb-default-ns-full.yaml
 ----
 
 ===== List all resources
@@ -152,16 +202,37 @@ Access url via
 
 [source,shell]
 ----
-curl -v -k <ing_url>
+# for game-2048 namespace
+curl -v -k $(kubectl get svc service-2048 -n game-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname')
+
+# for default namespace
+curl -v -k $(kubectl get svc service-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname')
+
+# or
+
+# get service_url
+
+# for game-2048 namespace
+kubectl get svc service-2048 -n game-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname'
+
+# for default namespace
+kubectl get svc service-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname'
+
+# and access
+curl -v -k service_url
 ----
 
-or in browser
+or access it in browser
 
 ===== Uninstall
 
 [source,shell]
 ----
+# for game-2048 namespace
 kubectl delete -f workload-nlb-full.yaml
+
+# for default namespace
+kubectl delete -f workload-nlb-default-ns-full.yaml
 ----
 
 ==== Using helm
@@ -170,6 +241,7 @@ kubectl delete -f workload-nlb-full.yaml
 
 [source,shell]
 ----
+
 helm upgrade --install workload workload-nlb-chart
 ----
 
@@ -191,10 +263,27 @@ Access url via
 
 [source,shell]
 ----
-curl -v -k <ing_url>
+# for game-2048 namespace
+curl -v -k $(kubectl get svc service-2048 -n game-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname')
+
+# for default namespace
+curl -v -k $(kubectl get svc service-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname')
+
+# or
+
+# get service_url
+
+# for game-2048 namespace
+kubectl get svc service-2048 -n game-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname'
+
+# for default namespace
+kubectl get svc service-2048 -o yaml | yq '.status.loadBalancer.ingress[0].hostname'
+
+# and access
+curl -v -k service_url
 ----
 
-or in browser
+or access it in browser
 
 ===== Uninstall
 
@@ -264,81 +353,17 @@ helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
     --set serviceAccount.create=false \
     --set serviceAccount.name=workload-sa
 
-# Ingress (L7 - ALB) workload
+####
+# For instructions on launching & cleaning up Ingress (L7 - ALB) workload, look back at above section named:
+#     Ingress (L7 - ALB) workload
+# For instructions on launching & cleaning up Service LoadBalancer (L4 - NLB) based workload, look back at above section named:
+#     Service LoadBalancer (L4 - NLB) workload
+####
 
-## Using kubectl
-
-### Install
-kubectl apply -f workload-alb-full.yaml
-
-### List all resources
-kubectl get all -A
-
-### Get Ingresses
-kubectl get ing -A
-
-# (or) Access url via
-curl -v -k ing_url
-# or in browser
-
-### Uninstall
-kubectl delete -f workload-alb-full.yaml
-
-## Using helm
-
-### Install
-helm upgrade --install workload workload-alb-chart
-
-### List all resources
-kubectl get all -A
-
-### Get Ingresses
-kubectl get ing -A
-
-# (or) Access url via
-curl -v -k ing_url
-# or in browser
-
-### Uninstall
-helm uninstall workload
-
-# Service LoadBalancer (L4 - NLB) workload
-
-## Using kubectl
-
-### Install
-kubectl apply -f workload-nlb-full.yaml
-
-### List all resources
-kubectl get all -A
-
-### Get Services
-kubectl get svc -A
-
-# (or) Access url via
-curl -v -k ing_url
-# or in browser
-
-### Uninstall
-kubectl delete -f workload-nlb-full.yaml
-
-## Using helm
-
-### Install
-helm upgrade --install workload workload-nlb-chart
-
-### List all resources
-kubectl get all -A
-
-### Get Services
-kubectl get svc -A
-
-# (or) Access url via
-curl -v -k ing_url
-# or in browser
-
-# Uninstall
-helm uninstall workload
+####
+# Next section DELETES resources, proceed with CAUTION
+# For final cleanup follow subsequent steps
+####
 
 # List loadbalancer policy & note ARN
 aws iam list-policies --query "Policies[?PolicyName == 'AWSLoadBalancerControllerIAMPolicy'].Arn"

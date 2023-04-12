@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  {{- if not (.Values.defaultNamespace) }}
   namespace: game-2048
+  {{- end }}
   name: deployment-2048
 spec:
   selector:

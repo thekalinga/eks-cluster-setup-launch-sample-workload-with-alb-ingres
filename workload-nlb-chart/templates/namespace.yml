@@ -1,4 +1,6 @@
+{{- if not (.Values.defaultNamespace) -}}
 apiVersion: v1
 kind: Namespace
 metadata:
   name: game-2048
+{{- end }}
