@@ -9,7 +9,9 @@ You need to install
 . https://github.com/aws/aws-cli[aws-cli]
 . https://eksctl.io/[eksctl]
 
-It installs AWS Load Balancer controller (This is AWS LoadBalancer, not Application LoadBalancer). AWS LoadBalancer is refers to all load balancers --- Application LoadBalancer (ALB), Network LoadBalancer (NLB) & Elastic LoadBalancer (ELB) i.e AWS LB ≠ ALB, AWS LB = ALB &/ NLB &/ ELB.
+Post cluster launch, for supporting Ingress, we install Ingress CRDs & AWS Load Balancer controller.
+
+NOTE: This is AWS LoadBalancer, not Application LoadBalancer. AWS LoadBalancer is refers to all load balancers supported by AWS. They include Application LoadBalancer (ALB), Network LoadBalancer (NLB) & Elastic LoadBalancer (ELB), in otherwords, AWS LB ≠ ALB, AWS LB = ALB/NLB/ELB.
 
 == Quasi-Declarative version
 
@@ -241,8 +243,11 @@ kubectl delete -f workload-nlb-default-ns-full.yaml
 
 [source,shell]
 ----
-
+# installs all resources into game-2048 namespace
 helm upgrade --install workload workload-nlb-chart
+
+# use this if you want to install this into default profile instead
+helm upgrade --install workload workload-nlb-chart --set defaultNamespace=true
 ----
 
 ===== List all resources
