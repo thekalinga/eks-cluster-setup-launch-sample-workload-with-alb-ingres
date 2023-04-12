@@ -9,9 +9,9 @@ You need to install
 . https://github.com/aws/aws-cli[aws-cli]
 . https://eksctl.io/[eksctl]
 
-Post cluster launch, for supporting Ingress, we install Ingress CRDs & AWS Load Balancer controller.
+Post cluster launch, but before launching a sample workload application, to enable external access (Ingress/LoadBalancer), we install Ingress CRDs & also AWS LoadBalancer Controller.
 
-NOTE: This is AWS LoadBalancer, not Application LoadBalancer. AWS LoadBalancer is refers to all load balancers supported by AWS. They include Application LoadBalancer (ALB), Network LoadBalancer (NLB) & Elastic LoadBalancer (ELB), in otherwords, AWS LB ≠ ALB, AWS LB = ALB/NLB/ELB.
+NOTE: This is AWS LoadBalancer, not Application LoadBalancer. AWS LoadBalancer is refers to all load balancers supported by AWS. They include L7 Application LoadBalancer (ALB), L4 Network LoadBalancer (NLB) & Elastic LoadBalancer (ELB). In otherwords, AWS LB ≠ ALB, AWS LB = ALB/NLB/ELB.
 
 == Quasi-Declarative version
 
