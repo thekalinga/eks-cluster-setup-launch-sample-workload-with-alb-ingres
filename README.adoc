@@ -179,11 +179,17 @@ helm uninstall workload
 
 [source,shell]
 ----
-# installs all resources into game-2048 namespace
-kubectl apply -f workload-nlb-full.yaml
+# installs all resources into game-2048 namespace with NLB with target-type: ip
+kubectl apply -f workload-nlb-target-type-ip-full.yaml
 
-# use this if you want to install this into default profile instead
-kubectl apply -f workload-nlb-default-ns-full.yaml
+# installs all resources into game-2048 namespace with NLB with target-type: instance
+kubectl apply -f workload-nlb-target-type-instance-full.yaml
+
+# use this, for installing into default profile with NLB with target-type: ip
+kubectl apply -f workload-nlb-default-ns-target-type-ip-full.yaml
+
+# use this, for installing into default profile with NLB with target-type: instance
+kubectl apply -f workload-nlb-default-ns-target-type-instance-full.yaml
 ----
 
 ===== List all resources
@@ -230,11 +236,17 @@ or access it in browser
 
 [source,shell]
 ----
-# for game-2048 namespace
-kubectl delete -f workload-nlb-full.yaml
+# for game-2048 namespace with NLB with target-type: ip
+kubectl delete -f workload-nlb-target-type-ip-full.yaml
 
-# for default namespace
-kubectl delete -f workload-nlb-default-ns-full.yaml
+# for game-2048 namespace with NLB with target-type: instance
+kubectl delete -f workload-nlb-target-type-instance-full.yaml
+
+# for default namespace with NLB with target-type: ip
+kubectl delete -f workload-nlb-default-ns-target-type-ip-full.yaml
+
+# for default namespace with NLB with target-type: instance
+kubectl delete -f workload-nlb-default-ns-target-type-instance-full.yaml
 ----
 
 ==== Using helm
@@ -243,11 +255,17 @@ kubectl delete -f workload-nlb-default-ns-full.yaml
 
 [source,shell]
 ----
-# installs all resources into game-2048 namespace
+# installs all resources into game-2048 namespace with NLB with target-type: ip
 helm upgrade --install workload workload-nlb-chart
 
-# use this if you want to install this into default profile instead
+# installs all resources into game-2048 namespace with NLB with target-type: instance
+helm upgrade --install workload workload-nlb-chart --set nlbTargetType=instance
+
+# use this, for installing into default profile with NLB with target-type: ip
 helm upgrade --install workload workload-nlb-chart --set defaultNamespace=true
+
+# use this, for installing into default profile with NLB with target-type: instance
+helm upgrade --install workload workload-nlb-chart  --set nlbTargetType=instance --set defaultNamespace=true
 ----
 
 ===== List all resources

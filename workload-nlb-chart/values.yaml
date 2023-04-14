@@ -1,1 +1,4 @@
 defaultNamespace: false
+# must be ip/instance
+# refer to https://docs.aws.amazon.com/eks/latest/userguide/network-load-balancing.html for more details
+nlbTargetType: ip
